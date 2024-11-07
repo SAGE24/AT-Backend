@@ -7,7 +7,7 @@ Este proyecto implementa un conjunto de microservicios en Node.js usando el fram
 El proyecto está dividido en los siguientes microservicios:
 
 1. **Customer Service**: crear registro y validación de clientes.
-2. **Reservation Service**: Se encarga de crear y actualizar estado de reservacion.
+2. **Flights Service**: Se encarga de crear y actualizar estado de reservacion.
 3. **Payment Service**: Crea los registros de pagos.
 4. **Orchestrator Service**: Actúa como el coordinador central del flujo SAGA, controlando los pasos entre servicios y manejando las compensaciones en caso de error.
 
@@ -54,7 +54,7 @@ El proyecto está dividido en los siguientes microservicios:
 - Inicia el flujo de reserva al recibir datos de cliente y vuelo.
 - Llama a los servicios en secuencia:
   - **Customer Service** para crear o validar al cliente.
-  - **Reservation Service** para crear la reserva.
+  - **Flight Service** para crear la reserva.
   - **Payment Service** para procesar el pago.
 - Si algún paso falla, activa un proceso de compensación llamando a otros servicios para revertir las operaciones (por ejemplo, cancelar una reserva si falla el pago).
 
@@ -88,22 +88,22 @@ En este proyecto, se usa **SAGA con orquestación**. Esto significa que el **Orc
 
 3. Configurar variables de entorno de los diferentes proyestos .env:
    para los servicios service-customers, service-flights, service-payments agregar las siguientes variables globales:
-   - DB_HOST, nombre de base de datos mysql.
-   - DB_PORT, puerto de pase de datos mysql.
-   - DB_USERNAME, usuario.
-   - DB_PASSWORD, contraseña.
-   - DB_NAME, nombre de base de datos.
+   - **DB_HOST**, nombre de base de datos mysql.
+   - **DB_PORT**, puerto de pase de datos mysql.
+   - **DB_USERNAME**, usuario.
+   - **DB_PASSWORD**, contraseña.
+   - **DB_NAME, nombre** de base de datos.
 
    para el orquestador:
-   - URL_SERVICE_CUSTOMERS, url de sevicio de cliente.
-   - URL_SERVICE_FLIGTHS, url se servicio de reservacion.
-   - URL_SERVICE_PAYMENTS, url para servicio de pagos.
+   - **URL_SERVICE_CUSTOMERS**, url de sevicio de cliente.
+   - **URL_SERVICE_FLIGTHS**, url se servicio de reservacion.
+   - **URL_SERVICE_PAYMENTS**, url para servicio de pagos.
 
 4. Ejecutar cada microservicio en un puerto diferente.
    - npm run start:dev
 
 5. Se puede visualizar los servicios desde Swagger, o utilizar postman cargado en la carpeta Utils.
-   - Customers: http://localhost:3000/api/customer
-   - flights: http://localhost:3001/api/flight
-   - Payments: http://localhost:3002/api/payments
-   - Orchestrator: http://localhost:3003/api/orchestrator
+   - **Customers**: http://localhost:3000/api/customer
+   - **Flights**: http://localhost:3001/api/flight
+   - **Payments**: http://localhost:3002/api/payments
+   - **Orchestrator**: http://localhost:3003/api/orchestrator
