@@ -5,14 +5,18 @@ import { CreateReservationCommand } from '../commands/create-reservation.command
 import { UpdateReservationCommand } from '../commands/update-reservation.command';
 import { ProcessPaymentCommand } from '../commands/process-payment.command';
 import { CreatePaymentDto } from '../dto/create-payment.dto';
+import { OrchestratorDto } from '../dto/orchestrator.dto';
+import { CreateReservationDto } from '../dto/create-reservation.dto';
+import { Utils } from '../../config/utils';
 
 @Controller('api/orchestrator')
 export class OrchestratorController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Post()
-  async createReservation(@Body() request: any) {
+  async createReservation(@Body() request: OrchestratorDto) {
     const { customerData, flightData } = request;
+    let flightsId = 0;
 
     try {
       console.log(customerData);
@@ -28,23 +32,27 @@ export class OrchestratorController {
         0,
       );
 
-      flightData.customerCode = response;
-      flightData.price = total;
-      flightData.state = 'reserved';
+      const requestFlights: CreateReservationDto = {
+        origin: flightData.origin,
+        destination: flightData.destination,
+        departureTime: flightData.departureTime,
+        amount: flightData.amount,
+        price: total,
+        state: 'reserved',
+        customerCode: response,
+        seating: flightData.seating,
+      };
       const responseReservation = await this.commandBus.execute(
-        new CreateReservationCommand(flightData),
+        new CreateReservationCommand(requestFlights),
       );
-      flightData.id = responseReservation;
-      console.log('código de reserva', responseReservation);
-
-      const dateNow = new Date();
-      const dateString = `${dateNow.getFullYear()}-${dateNow.getMonth() + 1}-${dateNow.getDate()} ${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`;
+      flightsId = responseReservation;
+      console.log('código de reserva', flightsId);
 
       const payment: CreatePaymentDto = {
-        customerId: flightData.customerCode,
-        flightId: flightData.id,
+        customerId: requestFlights.customerCode,
+        flightId: flightsId,
         amount: total,
-        paymentDate: dateString,
+        paymentDate: Utils.getCurrentDate(),
       };
       await this.commandBus.execute(new ProcessPaymentCommand(payment));
 
@@ -56,7 +64,7 @@ export class OrchestratorController {
     } catch (error) {
       if (error.response && error.status === 500) {
         await this.commandBus.execute(
-          new UpdateReservationCommand(flightData.id, 'canceled'),
+          new UpdateReservationCommand(flightsId, 'canceled'),
         );
         console.log('Inactivar reserva', error);
       }

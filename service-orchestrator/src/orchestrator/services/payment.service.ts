@@ -10,7 +10,10 @@ export class PaymentService {
   async create(request: CreatePaymentDto): Promise<CreatePaymentDto> {
     try {
       const response = await lastValueFrom(
-        this.httpService.post('http://localhost:3002/api/payments', request),
+        this.httpService.post(
+          `${process.env.URL_SERVICE_PAYMENTS}/api/payments`,
+          request,
+        ),
       );
       return response.data;
     } catch {

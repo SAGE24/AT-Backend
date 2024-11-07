@@ -3,7 +3,7 @@ import { OrchestratorController } from './controllers/orchestrator.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 import { HttpModule } from '@nestjs/axios';
 import { CustomerService } from './services/customer.service';
-import { ReservationService } from './services/reservation.service';
+import { ReservationService } from './services/flight.service';
 import { PaymentService } from './services/payment.service';
 import { CreateReservationHandler } from './handlers/create-reservation.handler';
 import { ValidateCustomerHandler } from './handlers/validate-customer.handler';

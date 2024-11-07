@@ -15,14 +15,14 @@ export class CustomerService {
     try {
       const response = await lastValueFrom(
         this.httpService.get(
-          `http://localhost:3000/api/customers/${customerData.document}`,
+          `${process.env.URL_SERVICE_CUSTOMERS}/api/customers/${customerData.document}`,
         ),
       );
       return response.data.id;
     } catch {
       const newRecord = await lastValueFrom(
         this.httpService.post(
-          'http://localhost:3000/api/customers',
+          `${process.env.URL_SERVICE_CUSTOMERS}/api/customers`,
           customerData,
         ),
       );

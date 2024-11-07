@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler, EventBus } from '@nestjs/cqrs';
 import { UpdateReservationCommand } from '../commands/update-reservation.command';
 import { UpdatedStatusEvent } from '../events/updated-status.event';
-import { ReservationService } from '../services/reservation.service';
+import { ReservationService } from '../services/flight.service';
 
 @CommandHandler(UpdateReservationCommand)
 export class UpdateReservationHandler

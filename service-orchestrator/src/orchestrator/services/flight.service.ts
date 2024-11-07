@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
-import { CreateReservationDto } from './../dto/create-reservation.dto';
+import { CreateReservationDto } from '../dto/create-reservation.dto';
 import { CreateSeatingDto } from '../dto/create-seating.dto';
 
 @Injectable()
@@ -18,7 +18,10 @@ export class ReservationService {
     customerCode: number;
   }): Promise<number> {
     const response = await lastValueFrom(
-      this.httpService.post('http://localhost:3001/api/flights', data),
+      this.httpService.post(
+        `${process.env.URL_SERVICE_FLIGTHS}/api/flights`,
+        data,
+      ),
     );
 
     return response.data.id;
@@ -26,16 +29,22 @@ export class ReservationService {
 
   async updateStatus(id: number, state: string): Promise<CreateReservationDto> {
     const response = await lastValueFrom(
-      this.httpService.put(`http://localhost:3001/api/flights/${id}`, {
-        state,
-      }),
+      this.httpService.put(
+        `${process.env.URL_SERVICE_FLIGTHS}/api/flights/${id}`,
+        {
+          state,
+        },
+      ),
     );
     return response.data;
   }
 
   async saveDetail(seating: CreateSeatingDto[]): Promise<void> {
     await lastValueFrom(
-      this.httpService.post(`http://localhost:3001/api/seating`, seating),
+      this.httpService.post(
+        `${process.env.URL_SERVICE_FLIGTHS}/api/seating`,
+        seating,
+      ),
     );
   }
 }
