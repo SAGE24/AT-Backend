@@ -100,6 +100,7 @@ En este proyecto, se usa **SAGA con orquestación**. Esto significa que el **Orc
    - **URL_SERVICE_PAYMENTS**, url para servicio de pagos.
 
 4. Ejecutar cada microservicio en un puerto diferente.
+   ```bash
    - npm run start:dev
 
 5. Se puede visualizar los servicios desde Swagger, o utilizar postman cargado en la carpeta Utils.
