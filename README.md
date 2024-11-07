@@ -6,9 +6,9 @@ Este proyecto implementa un conjunto de microservicios en Node.js usando el fram
 
 El proyecto está dividido en los siguientes microservicios:
 
-1. **Customer Service**: Gestiona la creación y validación de clientes.
-2. **Reservation Service**: Se encarga de crear y cancelar reservas de vuelos.
-3. **Payment Service**: Procesa los pagos de las reservas.
+1. **Customer Service**: crear registro y validación de clientes.
+2. **Reservation Service**: Se encarga de crear y actualizar estado de reservacion.
+3. **Payment Service**: Crea los registros de pagos.
 4. **Orchestrator Service**: Actúa como el coordinador central del flujo SAGA, controlando los pasos entre servicios y manejando las compensaciones en caso de error.
 
 ## Tabla de Contenidos
@@ -29,22 +29,22 @@ El proyecto está dividido en los siguientes microservicios:
 
 **EndPoints**:
 - **POST /api/customers**: Crea un nuevo cliente en la base de datos.
-- **GET /api/customers/:document**: Verifica si existe un cliente en el sistema usando su documento.
+- **GET /api/customers/:document**: Buscar registro de cliente por documento.
 
 ### 2. Reservation Service
 
-**Responsabilidad**: Este servicio gestiona la creación y cancelación de reservas.
+**Responsabilidad**: Este servicio gestiona la creación y cambio de estado de reservas.
 
 **EndPoints**:
-- **POST /api/reservations**: Crea una nueva reserva de vuelo para un cliente y genera un ID de reserva.
-- **DELETE /api/reservations/:id**: Cancela una reserva en caso de que el proceso de pago falle.
+- **POST /api/flights**: Crea una nueva reserva de vuelo para un cliente y genera un ID de reserva.
+- **UPDATE /api/flights/:id**: Actualiza el estado de la reserva, por error o que se concreto el pago.
 
 ### 3. Payment Service
 
 **Responsabilidad**: Maneja los pagos asociados a una reserva específica.
 
 **EndPoints**:
-- **POST /api/payments**: Procesa el pago de una reserva utilizando el ID de la reserva y el monto.
+- **POST /api/payments**: Procesa el pago de una reserva utilizando el ID de la reserva, ID de cliente y el monto.
 
 ### 4. Orchestrator Service
 
@@ -73,4 +73,37 @@ En este proyecto, se usa **SAGA con orquestación**. Esto significa que el **Orc
    
 3. **Procesamiento de Pago**:
    - Si la reserva se crea exitosamente, el orquestador llama al `Payment Service` para procesar el pago.
-   - Si el pago falla, el orquestador invoca la cancelación de la 
+   - Si el pago es exitoso, el orquestador llama al `Reservation Service` para actualizar estado a pagado.
+   - Si el pago falla, el orquestador invoca la cancelación de la reserva en el `Reservation Service` como compensación.
+
+## Cómo Ejecutar el Proyecto
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu-usuario/tu-repositorio.git
+   cd tu-repositorio
+
+2. Instalar dependencias:
+   npm install
+
+3. Configurar variables de entorno de los diferentes proyestos .env:
+   para los servicios service-customers, service-flights, service-payments agregar las siguientes variables globales:
+   - DB_HOST, nombre de base de datos mysql.
+   - DB_PORT, puerto de pase de datos mysql.
+   - DB_USERNAME, usuario.
+   - DB_PASSWORD, contraseña.
+   - DB_NAME, nombre de base de datos.
+
+   para el orquestador:
+   - URL_SERVICE_CUSTOMERS, url de sevicio de cliente.
+   - URL_SERVICE_FLIGTHS, url se servicio de reservacion.
+   - URL_SERVICE_PAYMENTS, url para servicio de pagos.
+
+4. Ejecutar cada microservicio en un puerto diferente.
+   - npm run start:dev
+
+5. Se puede visualizar los servicios desde Swagger, o utilizar postman cargado en la carpeta Utils.
+   - Customers: http://localhost:3000/api/customer
+   - flights: http://localhost:3001/api/flight
+   - Payments: http://localhost:3002/api/payments
+   - Orchestrator: http://localhost:3003/api/orchestrator

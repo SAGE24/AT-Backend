@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "f307690d-77b0-48d6-9203-b74d4cf32572",
+		"name": "Apuesta Total",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2334349",
+		"_collection_link": "https://orange-trinity-340406.postman.co/workspace/HPC-apis~7e0e7b15-6f76-43b2-b73a-0e25925eee08/collection/2334349-f307690d-77b0-48d6-9203-b74d4cf32572?action=share&source=collection_link&creator=2334349"
+	},
+	"item": [
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "registro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/customers/70797033",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"customers",
+								"70797033"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"document\": \"70797030\",\r\n    \"name\": \"Belinda Cuya\",\r\n    \"email\": \"bel@gmail.com\",\r\n    \"phone\": \"938789891\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vuelos",
+			"item": [
+				{
+					"name": "crear",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"origin\": \"Lima\",\r\n    \"destination\": \"Trujillo\",\r\n    \"departureTime\": \"2024-11-06 19:30\",\r\n    \"amount\": 1,\r\n    \"price\": 100,\r\n    \"state\": \"reserved\",\r\n    \"customerCode\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/flights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizar estado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"state\": \"cancel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/flights/43",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"flights",
+								"43"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crear asientos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"flightId\": \"1\",\r\n        \"number\": \"A1\",\r\n        \"price\": 90\r\n    },\r\n    {\r\n        \"flightId\": \"1\",\r\n        \"number\": \"A2\",\r\n        \"price\": 85\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/seatings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"seatings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pagos",
+			"item": [
+				{
+					"name": "crear",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3002/api/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orquestador",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerData\": {\r\n        \"document\": \"14094949\",\r\n        \"name\": \"Paola Carlos\",\r\n        \"email\": \"pao@gmail.com\",\r\n        \"phone\": \"973647333\"\r\n    },\r\n    \"flightData\": {\r\n        \"origin\":\"Tacna\",\r\n        \"destination\":\"Tumbes\",\r\n        \"departureTime\":\"2024-11-06 14:00:00\",\r\n        \"arrivalTime\":\"2024-11-06 16:00:00\",\r\n        \"amount\": 1,\r\n        \"seating\":[\r\n            { \"number\":\"1A\", \"price\": 90 },\r\n            { \"number\":\"2A\", \"price\": 85 }\r\n        ]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/orchestrateBooking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"orchestrateBooking"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
