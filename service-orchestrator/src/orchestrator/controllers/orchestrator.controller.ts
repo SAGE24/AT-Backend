@@ -60,7 +60,7 @@ export class OrchestratorController {
         new UpdateReservationCommand(responseReservation, 'paid'),
       );
 
-      return { message: 'Proceso terminado correctamete' };
+      return { status: true, data: requestFlights };
     } catch (error) {
       if (error.response && error.status === 500) {
         await this.commandBus.execute(

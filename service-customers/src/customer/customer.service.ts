@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CustomerRepository } from './customer.repository';
 import { Customer } from './entities/customer.entity';
 
@@ -8,9 +8,6 @@ export class CustomerService {
 
   async getCustomerByDocument(document: string): Promise<Customer> {
     const customer = await this.customerRepository.findByDocument(document);
-    if (!customer) {
-      throw new NotFoundException('Cliente no existe');
-    }
     return customer;
   }
 

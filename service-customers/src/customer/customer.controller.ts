@@ -1,7 +1,16 @@
-import { Controller, Param, Get, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Param,
+  Get,
+  Post,
+  Body,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { Customer } from './entities/customer.entity';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiTags('api/customers')
 @Controller('api/customers')
@@ -10,10 +19,18 @@ export class CustomerController {
 
   @ApiOperation({ summary: 'Obtener un cliente por documento' })
   @ApiResponse({ status: 200, description: 'Detalles del cliente.' })
-  @ApiResponse({ status: 404, description: 'Cliente no encontrado.' })
+  @ApiResponse({ status: 201, description: 'Cliente no encontrado.' })
   @Get(':document')
-  findByDocument(@Param('document') document: string): Promise<Customer> {
-    return this.customerService.getCustomerByDocument(document);
+  async findByDocument(
+    @Param('document') document: string,
+    @Res() res: Response,
+  ) {
+    const customer = await this.customerService.getCustomerByDocument(document);
+    if (customer) {
+      return res.status(HttpStatus.OK).json(customer);
+    } else {
+      return res.status(HttpStatus.NO_CONTENT).send();
+    }
   }
 
   @ApiOperation({ summary: 'Crear cliente' })
