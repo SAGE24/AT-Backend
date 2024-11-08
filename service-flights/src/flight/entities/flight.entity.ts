@@ -11,7 +11,7 @@ export class Flight {
   @Column({ length: 100 })
   destination: string;
 
-  @Column('timestamp')
+  @Column('timestamp', { name: 'departure_time' })
   departureTime: Date;
 
   @Column()
@@ -23,6 +23,6 @@ export class Flight {
   @Column({ length: 20 })
   state: string;
 
-  @Column()
+  @Column({ name: 'customer_id' })
   customerCode: number;
 }
