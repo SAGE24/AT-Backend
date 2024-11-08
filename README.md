@@ -16,8 +16,6 @@ El proyecto está dividido en los siguientes microservicios:
 - [Servicios](#servicios)
 - [Patrón SAGA con Orquestación](#patrón-saga-con-orquestación)
 - [Cómo Ejecutar el Proyecto](#cómo-ejecutar-el-proyecto)
-- [Configuración de Swagger](#configuración-de-swagger)
-- [Ejemplo de Flujo](#ejemplo-de-flujo)
 
 ---
 
